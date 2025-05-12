@@ -1,57 +1,22 @@
-import "./App.css";
-import GooglePayButton from "@google-pay/button-react";
-import React from "react";
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Product from './pages/Product';
+import Checkout from './pages/Checkout';
+import Success from './pages/Success';
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <GooglePayButton
-        environment="TEST"
-        paymentRequest={{
-          apiVersion: 2,
-          apiVersionMinor: 0,
-          allowedPaymentMethods: [
-            {
-              type: "CARD",
-              parameters: {
-                allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                allowedCardNetworks: ["MASTERCARD", "VISA"],
-              },
-              tokenizationSpecification: {
-                type: "PAYMENT_GATEWAY",
-                parameters: {
-                  gateway: "example",
-                  gatewayMerchantId: "exampleGatewayMerchantId",
-                },
-              },
-            },
-          ],
-          merchantInfo: {
-            merchantId: "12345678901234567890",
-            merchantName: "Demo Merchant",
-          },
-          transactionInfo: {
-            totalPriceStatus: "FINAL",
-            totalPriceLabel: "Total",
-            totalPrice: "1",
-            currencyCode: "USD",
-            countryCode: "US",
-          },
-          shippingAddressRequired: true,
-          callbackIntents: ["PAYMENT_AUTHORIZATION"],
-        }}
-        onLoadPaymentData={(paymentRequest) => {
-          console.log(paymentRequest);
-        }}
-        onPaymentAuthorized={paymentData =>{
-          console.log('paymentData ' + paymentData);
-          return { transactionState: 'SUCCESS'}
-        }}
-        existingPaymentMethodRequired='false'
-        buttonColor="black"
-        buttonType="buy"
-      ></GooglePayButton>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Product />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/success" element={<Success />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
